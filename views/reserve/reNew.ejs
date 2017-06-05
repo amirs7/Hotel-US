@@ -1,0 +1,57 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>Reserve on requested days is not available!</p>
+    </div>
+    <h4 class="uk-card-title uk-align-center">New Reserve Card </h4>
+    <form id="reserveForm" action="/reserves" method="post" class="uk-form-width-medium uk-align-center">
+        <input class="uk-input  " name="firstname" placeholder="Firstname" value="<%=reserve.firstname%>">
+        <input class="uk-input uk-margin-top" name="lastname" placeholder="Lastname" type="text" value="<%=reserve.lastname%>">
+        <input class="uk-input uk-margin-top" name="nationalId" placeholder="National ID" type="number" value="<%=reserve.nationalId%>">
+        <input class="uk-input uk-margin-top" name="length" placeholder="Length" type="number" value="<%=reserve.length%>">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Reserve Date</label>
+            <div class="uk-form-controls">
+                <input class="date uk-input uk-form-danger " id="date1" name="inDate" value="<%=reserve.inDate%>" onselect="sub()" placeholder="YYYY/MM/DD" type="date">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Booking Date</label>
+            <div class="uk-form-controls">
+                <input class="date  uk-input " id="date2" name="bookingDate" value="<%=reserve.bookingDate%>" onfocus="" placeholder="YYYY/MM/DD" type="date">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Room Type</label>
+            <select class="uk-select" name="roomType">
+                <%roomTypes.forEach(function (roomType) {%>
+
+                <option <%if(reserve.roomType == roomType){%>selected<%}%> value="<%=roomType._id%>"><%=roomType.title%> </option>
+                <%})%>
+            </select>
+        </div>
+        <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+    </form>
+</div>
+</body>
+<script>
+    var sub = function () {
+        var notifications = UIkit.notification({
+            message: 'Reserve on requested days is not available!',
+            status: 'danger',
+            pos: 'top-center',
+            timeout: 5000
+        });
+    };
+//    sub();
+    var cleave = new Cleave('#date1', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+    var cleave2 = new Cleave('#date2', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+    var s = [];
+</script>

@@ -1,0 +1,50 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2 uk-align-center uk-margin-top">
+    <table class="uk-table uk-table-divider">
+        <caption>Services</caption>
+        <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Cost Rate</th>
+            <th>Available Hours</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%services.forEach(function (service) {%>
+        <tr>
+            <td><%=service.name%></td>
+            <td><%=service.rate%></td>
+            <td><%=service.availableHours%></td>
+            <td >
+                <a href="/services/<%=service._id%>/changeStatus">
+                    <p class="uk-label
+                <%if(service.status == "inActive"){%>
+                    uk-label-danger
+                 <%}else {%>
+                    uk-label-success
+                 <%}%>
+                ">
+                        <%=service.status%>
+                    </p>
+                    <div class="uk-inline">
+                        <div uk-drop="pos: right-center">
+                            <div class="uk-card uk-card-body uk-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                        </div>
+                    </div>
+                </a>
+            </td>
+
+            <form action="/services/<%=service._id%>/?_method=DELETE" method="post">
+                <input type="submit">
+            </form>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+</div>
+<form action="/services" method="post">
+    <input name="rate" type="number">
+    <input name="name" type="text">
+    <input type="submit">
+</form>

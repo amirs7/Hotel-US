@@ -1,0 +1,46 @@
+<%include ../partials/head.ejs%>
+<body bgcolor="#f8f8ff">
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <div class="uk-card-header">
+        <h4 class="uk-card-title">Check In Confirmation</h4>
+        <p class="uk-card-title"><%=customer.firstname%> <%=customer.lastname%></p>
+    </div>
+    <form action="/customers/<%=customer._id%>/confirmCheckIn" method="post" class="uk-form-blank">
+        <input class="uk-input " name="occupants" placeholder="Occupants" type="number" value="<%=info.occupants%>" hidden>
+        <div class="uk-margin">
+            <label class="uk-form-label">Room Number </label>
+            <select  name="roomId" class=" uk-select" >
+                <%rooms.forEach(function (room) {%>
+                <option value="<%=room._id%>"><%=room.no%> </option>
+                <%})%>
+            </select>
+        </div>
+        <label class="uk-form-label">In Date </label>
+        <input  class="date  uk-input uk-margin-bottom " name="inDate" placeholder="In Date" value="<%=info.inDate%>" type="date"required>
+        <label class="uk-margin-top uk-form-label">Length </label>
+        <input  class="date uk-input " name="length" placeholder="Length" value="<%=info.length%>" type="number" required>
+        <input class="uk-input " name="reserveId"value="<%=info.reserveId%>"  type="text" hidden >
+        <ul uk-accordion>
+            <%for(i=0;i<info.occupants;i++){%>
+            <li class="uk-close">
+                <h3 class="uk-accordion-title">Occupant <%=i+1%></h3>
+                <div class="uk-accordion-content">
+                <input  class="date uk-input uk-margin-top" name="firstname<%=i%>" placeholder="Firstname" type="text" required>
+                <input  class="date uk-input uk-margin-top" name="lastname<%=i%>" placeholder="Lastname" type="text" required>
+                <input  class="date uk-input uk-margin-top" name="birthDate<%=i%>" placeholder="Birht Date" type="text" required>
+                <input  class="date uk-input uk-margin-top" name="nationalId<%=i%>" placeholder="National Id" type="text" required>
+                </div>
+            </li>
+            <%}%>
+        </ul>
+
+        <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+    </form>
+</div>
+</body>
+<script>
+    var cleave = new Cleave('.date', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+</script>

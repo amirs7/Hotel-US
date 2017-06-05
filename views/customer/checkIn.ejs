@@ -1,0 +1,23 @@
+<%include ../partials/head.ejs%>
+<body bgcolor="#f8f8ff">
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <h4 class="uk-card-title">Check In </h4>
+    <form action="/customers/<%=customer._id%>/checkIn" method="post" class="uk-form-blank">
+        <input class="uk-input uk-margin-top" name="occupants" placeholder="Occupants" type="number" >
+        <select  name="roomType" class="uk-margin-top uk-select" >
+            <%roomTypes.forEach(function (roomType) {%>
+                <option <%if(info.roomType == roomType._id){%>selected<%}%> value="<%=roomType._id%>"><%=roomType.title%> </option>
+            <%})%>
+        </select>
+        <input  class="date uk-margin-top uk-input " name="inDate" placeholder="In Date" type="date" value="<%=info.inDate%>">
+        <input  class="date uk-margin-top uk-input " name="length" placeholder="Length" type="number" value="<%=info.length%>">
+        <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+    </form>
+</div>
+</body>
+<script>
+    var cleave = new Cleave('.date', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+</script>

@@ -1,0 +1,58 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2 uk-align-center uk-margin-top">
+    <table class="uk-table uk-table-divider">
+        <caption>Rooms</caption>
+        <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%users.forEach(function (user) {%>
+        <tr>
+            <td><%=user.firstname%></td>
+            <td><%=user.lastname%></td>
+
+            <td >
+                <a href="/admin/users/<%=user._id%>/changeStatus">
+                    <p class="uk-label
+                <%if(user.role == "admin"){%>
+                 uk-label-danger
+                 <%}else if(user.role== "receptor"){%>
+                 uk-label-warning
+                 <%}else {%>
+                 uk-label-success
+                 <%}%>
+                ">
+                        <%=user.role%>
+                    </p>
+                    <div class="uk-inline">
+                        <div uk-drop="pos: right-center">
+                            <div class="uk-card uk-card-body uk-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                        </div>
+                    </div>
+                </a>
+            </td>
+
+            <form action="/rooms/<%=user._id%>/?_method=DELETE" method="post">
+                <input type="submit">
+            </form>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+</div>
+<form action="/admin/users" method="post">
+    <input name="firstname" type="text">
+    <input name="lastname" type="text">
+    <input name="username" type="text">
+    <input name="password" type="text">
+    <select name="role">
+        <option value="admin">Admin</option>
+        <option value="receptor">Receptor</option>
+        <option value="serviceman">Serviceman</option>
+    </select>
+    <input type="submit">
+</form>

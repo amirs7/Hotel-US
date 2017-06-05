@@ -1,0 +1,27 @@
+<%include ../partials/head.ejs%>
+<body bgcolor="#f8f8ff">
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <h4 class="uk-card-title">Register New Customer </h4>
+    <form action="/customers" method="post" class="uk-form-blank">
+        <input class="uk-input " name="firstname" placeholder="Firstname" value="<%=reserve.firstname%>">
+        <input class="uk-input uk-margin-top" name="lastname" placeholder="Lastname" type="text" value="<%=reserve.lastname%>">
+        <input class="uk-input uk-margin-top" name="phone" placeholder="Phone" type="text">
+        <input class="uk-input uk-margin-top" name="mobile" placeholder="Mobile" type="text">
+        <input id="birthDate" class="uk-margin-top uk-input " name="birthDate" onfocus="" placeholder="YYYY/MM/DD" type="date">
+        <input class="uk-input uk-margin-top" name="address" placeholder="Address" type="text">
+        <input class="uk-input uk-margin-top" name="nationalId" placeholder="National ID" type="number" value="<%=reserve.nationalId%>">
+        <input id="birthDate" class="uk-margin-top uk-input " name="inDate" onfocus=""value="<%=reserve.inDate%>" type="date" hidden>
+        <input class="uk-input uk-margin-top" name="length" value="<%=reserve.length%>"  type="text" hidden>
+        <input class="uk-input uk-margin-top" name="roomType"value="<%=reserve.roomType._id%>"  type="text" hidden>
+        <input class="uk-input uk-margin-top" name="reserveId"value="<%=reserve._id%>"  type="text" hidden>
+        <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+    </form>
+</div>
+</body>
+<script>
+
+    var cleave = new Cleave('#birthDate', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+</script>

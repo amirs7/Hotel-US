@@ -1,0 +1,67 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <div class="uk-card-body" >
+        <h1 class="uk-align-right uk-text-primary">Receipt</h1>
+        <h3>Rooms </h3>
+        <table class="uk-table uk-text-small  uk-table-divider">
+            <thead>
+            <tr>
+                <th class="uk-table-expand ">Room Number</th>
+                <th class="uk-table-small">Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%receipt.roomReceipts.forEach(function(rr){%>
+                <tr>
+                    <td><%=rr.roomNo%></td>
+                    <td>-<%=rr.cost%></td>
+                </tr>
+            <%})%>
+            </tbody>
+        </table>
+        <hr class="uk-margin-left uk-margin-right uk-grid-divider">
+        <h3>Services </h3>
+        <table class="uk-table uk-table-divider">
+            <thead>
+            <tr>
+                <th class="uk-table-expand">Used Service</th>
+                <th class="uk-width-small ">Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%receipt.serviceReceipts.forEach(function(sr){%>
+                <tr>
+                    <td><%=sr.title%></td>
+                    <td>-<%=sr.cost%></td>
+                </tr>
+            <%})%>
+            </tbody>
+        </table>
+        <hr class="uk-margin-left uk-margin-right uk-grid-divider">
+        <h3>Payments </h3>
+        <table class="uk-table uk-table-divider">
+            <thead>
+            <tr>
+                <th class="uk-table-expand">Title</th>
+                <th class="uk-width-small uk-align-right">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%receipt.payments.forEach(function(p){%>
+                <tr>
+                    <td><%=p.title%></td>
+                    <td>+<%=p.amount%></td>
+                </tr>
+            <%})%>
+            </tbody>
+        </table>
+    </div>
+    <div class="uk-card-footer">
+        <h4 class="uk-align-right uk-text-primary">Total  <%=receipt.total%></h4>
+    </div>
+    <form action="/customers/<%=customer._id%>/checkOut" method="post">
+        <input name="receiptId" value="<%=receipt._id%>" hidden>
+        <button class="uk-button-primary uk-button-large uk-text-large uk-align-center" type=" submit">Check Out </button>
+    </form>
+</div>
+

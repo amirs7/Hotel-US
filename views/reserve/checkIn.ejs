@@ -1,0 +1,24 @@
+<%include ../partials/head.ejs%>
+<body bgcolor="#f8f8ff">
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2@m uk-align-center uk-margin-top">
+    <h4 class="uk-card-title">Check In </h4>
+    <form action="/customers/<%=customer._id%>/checkIn" method="post" class="uk-form-width-medium">
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-medium" name="occupants" placeholder="Occupants" type="number" >
+        </div>
+        <select  name="roomType" class="uk-margin-top uk-select" >
+            <option selected value="<%=reserve.roomType._id%>" ><%=reserve.roomType.title%></option>
+        </select>
+        <input  class="date uk-margin-top uk-input " name="inDate" placeholder="In Date" type="date" value="<%=reserve.inDate%>">
+        <input class="date uk-margin-top uk-input " name="length" placeholder="Length" type="number" value="<%=reserve.length%>">
+        <input class="uk-input uk-margin-top" name="reserveId"value="<%=reserve._id%>"  type="text" hidden>
+        <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+    </form>
+</div>
+</body>
+<script>
+    var cleave = new Cleave('.date', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+</script>

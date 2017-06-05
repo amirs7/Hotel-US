@@ -1,0 +1,39 @@
+<%include ../partials/head.ejs%>
+
+<div id="customers" >
+        <div class="uk-align-center uk-margin-top uk-margin-left uk-column-1-3">
+                <h1 >Reserves</h1>
+                <input class="search uk-text-large uk-search-input uk-margin-top " placeholder="Search" />
+                <a href="/reserves/new"><button class="uk-button-large  uk-button-primary">Make a new reserve</button></a>
+        </div>
+        <ul class="list uk-child-width-1-4 " uk-grid >
+        <%reserves.forEach(function (reserve) {%>
+                <div class="uk-margin-top uk-align-center">
+                <li>
+                        <div class="uk-card uk-card-default uk-card-hover uk-margin-left uk-text-center">
+                                <div class="uk-card-title uk-card-header"> <p class="uk-align-left nationalId"><%=reserve.nationalId%></p></div>
+                                <div class="uk-card-body uk-text-small">
+                                    <%=reserve.inDate%>
+                                </div>
+                                <div class="uk-card-body"><div class="roomType uk-card-badge uk-label"><%=reserve.roomType.title%> </div></div>
+
+                                <div class="uk-card-footer">
+                                        <a href="/reserves/<%=reserve._id%>/checkIn" ><button class=" uk-button-primary">Check In</button></a>
+                                        <form action="/reserves/<%=reserve._id%>/?_method=DELETE" method="post">
+                                                <button type="submit" class="uk-button-default uk-button-danger"> Delete </button>
+                                        </form>
+                                </div>
+                        </div>
+
+                </li>
+                </div>
+        <%})%>
+        </ul>
+</div>
+
+
+<script>
+    var puzzleList = new List('customers', {
+        valueNames: ['nationalId',"roomType"],
+    });
+</script>

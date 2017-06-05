@@ -1,0 +1,12 @@
+<%include ../partials/head.ejs%>
+<%roomTypes.forEach(function (roomType) {%>
+   <h3><%=roomType.title%></h3>
+    <form action="/roomTypes/<%=roomType._id%>/?_method=DELETE" method="post">
+        <input type="submit">
+    </form>
+<%})%>
+<form action="/roomTypes" method="post">
+    <input name="title" type="text">
+    <input name="rate" type="number">
+    <input type="submit">
+</form>

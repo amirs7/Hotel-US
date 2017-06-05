@@ -1,0 +1,167 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-default uk-card-hover uk-width-1-2@m uk-align-center">
+    <div class="uk-card-header">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-auto">
+                <span uk-icon="icon: user"></span>
+            </div>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title  uk-margin-remove-bottom"><%=customer.firstname%> <%=customer.lastname%> </h3>
+                <div class="uk-badge">
+                    Current Room : <%=customer.currentRoom%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">
+        <ul uk-accordion>
+            <li class="uk-close">
+                <label class=" uk-accordion-title uk-form-label" for="form-stacked-text">Occupants</label>
+                <div class="uk-accordion-content">
+                    <ul uk-accordion>
+                        <%customer.occupants.forEach(function(occupant){%>
+                        <li class="uk-close">
+                            <label class=" uk-accordion-title uk-form-label" for="form-stacked-text"><%=occupant.firstname%></label>
+                            <div class="uk-accordion-content">
+                                <ul uk-accordion>
+                                    <li>
+                                        <%=occupant.firstname%> <%=occupant.lastname%>
+                                    </li>
+                                    <li>
+                                        <%=occupant.nationalId%>
+                                    </li>
+                                    <li>
+                                        <%=occupant.birthDate%>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <%})%>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <ul uk-accordion>
+            <li class="uk-close">
+                <label class=" uk-accordion-title uk-form-label" for="form-stacked-text">Receipts</label>
+                <div class="uk-accordion-content">
+                    <ul uk-accordion>
+                        <li class="uk-close">
+                            <label class=" uk-accordion-title uk-form-label" for="form-stacked-text">Room Receipts</label>
+                            <div class="uk-accordion-content">
+                                <ul uk-accordion>
+                                    <%receipt.roomReceipts.forEach(function(rr){%>
+                                        <li>
+                                            - <%=rr.cost%> <%rr.roomNo%>
+                                        </li>
+                                    <%})%>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="uk-close">
+                            <label class=" uk-accordion-title uk-form-label" for="form-stacked-text">Service Receipts</label>
+                            <div class="uk-accordion-content">
+                                <ul uk-accordion>
+                                    <%receipt.serviceReceipts.forEach(function(sr){%>
+                                    <li>
+                                        - <%=sr.cost%> <%=sr.title%>
+                                    </li>
+                                    <%})%>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="uk-close">
+                            <label class=" uk-accordion-title uk-form-label" for="form-stacked-text">Payments</label>
+                            <div class="uk-accordion-content">
+                                <ul uk-accordion>
+                                    <%receipt.payments.forEach(function(p){%>
+                                    <li>
+                                        + <%=p.amount%> <%=p.title%>
+                                    </li>
+                                    <%})%>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <%if(!customer.checkedOut){%>
+        <a href="/customers/<%=customer._id%>/checkOut"><button  class="uk-button-large uk-position-relative uk-align-center uk-button-primary">Check Out </button> </a>
+        <%}%>
+    </div>
+    <%if(!customer.checkedOut){%>
+    <div class="uk-card-footer">
+        <a href="/customers/<%=customer._id%>/addRoomReceipt"><button  uk-toggle="target: #roomrec" class="uk-button-large uk-button-primary">Add Room </button> </a>
+        <a href="/customers/<%=customer._id%>/addServiceReceipt"><button uk-toggle="target: #servicerec" class="uk-button-large uk-button-primary">Add Service </button> </a>
+        <a href="/customers/<%=customer._id%>/addPayment"><button uk-toggle="target: #payment"  class="uk-button-large uk-button-danger">Add Payment </button> </a><br>
+    </div>
+    <%}%>
+</div>
+
+    <div id="servicerec" uk-modal>
+        <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-3@m uk-align-center uk-margin-top">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <h4 class="uk-card-title">Add Service Receipt</h4>
+            <form action="/customers/<%=customer._id%>/addServiceReceipt" method="post" >
+
+                <select name="service" class="uk-select">
+                    <%services.forEach(function (service) {%>
+                        <option value="<%=service._id%>"><%=service.name%></option>
+                    <%})%>
+                </select>
+                <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                    <li><a href="#">Amount</a></li>
+                    <li><a href="#">Cost</a></li>
+                </ul>
+                <ul class="uk-switcher uk-margin">
+                    <li>
+                        <div class="uk-margin">
+                            <input name="unit" class="uk-range" type="range" value="2" min="0" max="10" step="0.1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="uk-margin">
+                            <input name="cost" class="uk-input" type="number">
+                        </div>
+                    </li>
+                </ul>
+                <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+            </form>
+        </div>
+    </div>
+    <div id="roomrec" uk-modal>
+    <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-3@m uk-align-center uk-margin-top">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h4 class="uk-card-title">Add room </h4>
+        <form action="/customers/<%=customer._id%>/addRoomReceipt" method="post" class="uk-form-blank">
+            <input class="uk-input uk-margin-top" name="occupants" placeholder="Occupants" type="number">
+            <select name="room" class="uk-select uk-margin-top" >
+                <%rooms.forEach(function (room) {%>
+                     <option value="<%=room._id%>"><%=room.no%></option>
+                <%})%>
+            </select>
+            <input class="uk-input uk-margin-top date" name="inDate" placeholder="In Date" type="date">
+            <input class="uk-input uk-margin-top" name="length" placeholder="length" type="number">
+            <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+        </form>
+    </div>
+    </div>
+    <div id="payment" uk-modal>
+    <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-3@m uk-align-center uk-margin-top">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h4 class="uk-card-title">Add Payment</h4>
+        <form action="/customers/<%=customer._id%>/addPayment" method="post" class="uk-form-blank">
+            <input class="uk-input uk-margin-top" name="title" placeholder="Title" type="text">
+            <input class="uk-input uk-margin-top" name="amount" placeholder="Amount" type="number">
+            <button class="uk-button-large uk-button-primary uk-align-center" >Submit </button>
+        </form>
+    </div>
+    </div>
+
+<script>
+    var cleave = new Cleave('.date', {
+        date: true,
+        datePattern: ['Y', 'm', 'd']
+    });
+</script>

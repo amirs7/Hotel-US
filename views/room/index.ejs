@@ -1,0 +1,60 @@
+<%include ../partials/head.ejs%>
+<div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-2 uk-align-center uk-margin-top">
+    <table class="uk-table uk-table-divider">
+        <caption>Rooms</caption>
+        <thead>
+        <tr>
+            <th>Room Number</th>
+            <th>Room Type</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%rooms.forEach(function (room) {%>
+            <tr>
+            <td><%=room.no%></td>
+            <td><%=room.type%></td>
+
+            <td >
+                <a href="/rooms/<%=room._id%>/changeStatus">
+                <p class="uk-label
+                <%if(room.status == "full"){%>
+                 uk-label-danger
+                 <%}else if(room.status == "reserve"){%>
+                 uk-label-warning
+                 <%}else {%>
+                 uk-label-success
+                 <%}%>
+                ">
+                    <%=room.status%>
+                </p>
+                <div class="uk-inline">
+                    <div uk-drop="pos: right-center">
+                        <div class="uk-card uk-card-body uk-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                    </div>
+                </div>
+                </a>
+            </td>
+
+            <form action="/rooms/<%=room._id%>/?_method=DELETE" method="post">
+                <input type="submit">
+            </form>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+</div>
+<form action="/rooms" method="post">
+    <input name="no" type="number">
+    <select name="rType">
+        <%roomTypes.forEach(function (roomType) {%>
+            <option value="<%=roomType._id%>"><%=roomType.title%></option>
+        <%})%>
+    </select>
+    <select name="status">
+        <option value="empty">Empty</option>
+        <option value="reserved">Reserved</option>
+        <option value="full">Full</option>
+    </select>
+    <input type="submit">
+</form>
